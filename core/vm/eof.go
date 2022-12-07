@@ -226,6 +226,7 @@ func readEOF1Header(code []byte) EOF1Header {
 	return header
 }
 
+
 // validateInstructions checks that there're no undefined instructions and code ends with a terminating instruction
 func validateInstructions(code []byte, header *EOF1Header, jumpTable *JumpTable) error {
 	var (
@@ -239,7 +240,7 @@ func validateInstructions(code []byte, header *EOF1Header, jumpTable *JumpTable)
 			return fmt.Errorf("%v: %v", ErrEOF1UndefinedInstruction, opcode)
 		case opcode >= PUSH1 && opcode <= PUSH32:
 			i += int(opcode) - int(PUSH1) + 2
-			continue // todo make sure this actually continues
+			fallthrough // should continue now to next case
 		case opcode == RJUMP || opcode == RJUMPI:
 			var arg int16
 			// Read immediate argument.
